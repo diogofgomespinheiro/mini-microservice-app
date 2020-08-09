@@ -1,4 +1,6 @@
 const { randomBytes } = require('crypto');
+const axios = require('axios');
+
 const posts = {};
 
 class PostsController {
@@ -14,6 +16,15 @@ class PostsController {
       id,
       title,
     };
+
+    await axios.post('http://localhost:4005/events', {
+      data: {
+        id,
+        title,
+      },
+      service: 'Posts',
+      type: 'PostCreated',
+    });
 
     res.status(201).json(posts[id]);
   }
