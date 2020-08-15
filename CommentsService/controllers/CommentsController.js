@@ -21,7 +21,7 @@ class CommentsController {
 
     commentsByPostId[postId] = comments;
 
-    axios.post('http://localhost:4005/events', {
+    axios.post(`${process.env.EVENT_BUS_URL}/events`, {
       data: {
         ...comment,
         postId,
@@ -44,7 +44,7 @@ class CommentsController {
 
         const comment = comments.find(commentItem => commentItem.id === id);
         comment.status = status;
-        await axios.post('http://localhost:4005/events', {
+        await axios.post(`${process.env.EVENT_BUS_URL}/events`, {
           data: {
             content,
             id,

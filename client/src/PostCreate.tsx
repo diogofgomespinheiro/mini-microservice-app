@@ -12,7 +12,7 @@ const PostCreate: React.FC = () => {
     evt.preventDefault();
 
     if (title) {
-      await axios.post('http://localhost:4000/posts', {
+      await axios.post(`${process.env.REACT_APP_POSTS_SERVICE_URL}/posts`, {
         title,
       });
     }

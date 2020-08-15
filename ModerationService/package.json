@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "nodemon -r dotenv/config server.js dotenv_config_path=../.env",
     "dev": "nodemon server.js",
     "dev:debug": "nodemon --inspect server.js",
     "lint": "eslint . --fix"

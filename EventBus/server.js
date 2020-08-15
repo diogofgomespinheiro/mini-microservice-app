@@ -18,10 +18,10 @@ app.post('/events', async (req, res) => {
   events.push(event);
 
   try {
-    await axios.post('http://localhost:4000/events', event);
-    await axios.post('http://localhost:4001/events', event);
-    await axios.post('http://localhost:4002/events', event);
-    await axios.post('http://localhost:4003/events', event);
+    await axios.post(`${process.env.POSTS_SERVICE_URL}/events`, event);
+    await axios.post(`${process.env.COMMENTS_SERVICE_URL}/events`, event);
+    await axios.post(`${process.env.QUERY_SERVICE_URL}/events`, event);
+    await axios.post(`${process.env.MODERATION_SERVICE_URL}/events`, event);
   } catch (err) {
     console.error(err);
   }

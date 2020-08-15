@@ -17,7 +17,7 @@ class PostsController {
       title,
     };
 
-    await axios.post('http://localhost:4005/events', {
+    await axios.post(`${process.env.EVENT_BUS_URL}/events`, {
       data: {
         id,
         title,

@@ -15,9 +15,12 @@ const CommentCreate: React.FC<CommentProps> = ({ postId }) => {
     evt.preventDefault();
 
     if (content) {
-      await axios.post(`http://localhost:4001/posts/${postId}/comments`, {
-        content,
-      });
+      await axios.post(
+        `${process.env.REACT_APP_COMMENTS_SERVICE_URL}/posts/${postId}/comments`,
+        {
+          content,
+        },
+      );
     }
 
     setContent('');
