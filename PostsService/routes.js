@@ -5,8 +5,6 @@ const router = express.Router();
 const PostsController = require('./controllers/PostsController');
 const postsController = new PostsController();
 
-router.get('/', postsController.getPosts);
-
-router.post('/', postsController.createPost);
+router.post('/create', postsController.createPost);
 
 module.exports = router;

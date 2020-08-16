@@ -12,9 +12,12 @@ const PostCreate: React.FC = () => {
     evt.preventDefault();
 
     if (title) {
-      await axios.post(`${process.env.REACT_APP_POSTS_SERVICE_URL}/posts`, {
-        title,
-      });
+      await axios.post(
+        `${process.env.REACT_APP_POSTS_SERVICE_URL}/posts/create`,
+        {
+          title,
+        },
+      );
     }
 
     setTitle('');
