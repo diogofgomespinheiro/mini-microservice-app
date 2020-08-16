@@ -52,10 +52,16 @@ app.post('/events', (req, res) => {
 app.listen(PORT, async () => {
   console.log(`Listening on ${PORT}`);
 
-  const res = await axios.get(`${process.env.EVENT_BUS_URL}/events`);
+  try {
+    const res = await axios.get(`${process.env.EVENT_BUS_URL}/events`);
 
-  res.data.forEach(event => {
-    console.log('Processing Event', event);
-    handleEvent(event.type, event.data);
-  });
+    res.data.forEach(event => {
+      console.log('Processing Event', event);
+      handleEvent(event.type, event.data);
+    });
+  } catch (error) {
+    res.status(400).json({ msg: 'There was an error processing an event' });
+    console.error('There was an error processing an event');
+    console.error(error);
+  }
 });

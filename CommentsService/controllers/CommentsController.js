@@ -21,14 +21,20 @@ class CommentsController {
 
     commentsByPostId[postId] = comments;
 
-    axios.post(`${process.env.EVENT_BUS_URL}/events`, {
-      data: {
-        ...comment,
-        postId,
-      },
-      service: 'Comments',
-      type: 'CommentCreated',
-    });
+    try {
+      axios.post(`${process.env.EVENT_BUS_URL}/events`, {
+        data: {
+          ...comment,
+          postId,
+        },
+        service: 'Comments',
+        type: 'CommentCreated',
+      });
+    } catch (error) {
+      res.status(400).json({ msg: 'There was an error creating the comment' });
+      console.error('There was an error creating the comment');
+      console.error(error);
+    }
 
     res.status(201).json(comments);
   }
@@ -55,6 +61,9 @@ class CommentsController {
           type: 'CommentUpdated',
         });
       } catch (error) {
+        res
+          .status(400)
+          .json({ msg: 'There was an error updating the comment' });
         console.error('There was an error updating the comment');
         console.error(error);
       }

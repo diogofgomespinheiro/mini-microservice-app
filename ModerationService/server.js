@@ -13,16 +13,22 @@ const handleEvent = async ({ type, data }) => {
   if (type === 'CommentCreated') {
     const status = data.content.includes('orange') ? 'rejected' : 'approved';
 
-    await axios.post(`${process.env.EVENT_BUS_URL}/events`, {
-      data: {
-        content: data.content,
-        id: data.id,
-        postId: data.postId,
-        status,
-      },
-      service: 'Moderation',
-      type: 'CommentModerated',
-    });
+    try {
+      await axios.post(`${process.env.EVENT_BUS_URL}/events`, {
+        data: {
+          content: data.content,
+          id: data.id,
+          postId: data.postId,
+          status,
+        },
+        service: 'Moderation',
+        type: 'CommentModerated',
+      });
+    } catch (error) {
+      res.status(400).json({ msg: 'There was an error processing an event' });
+      console.error('There was an error processing an event');
+      console.error(error);
+    }
   }
 };
 
@@ -38,10 +44,15 @@ app.post('/events', async (req, res) => {
 app.listen(PORT, async () => {
   console.log(`Listening on ${PORT}`);
 
-  const res = await axios.get(`${process.env.EVENT_BUS_URL}/events`);
-
-  res.data.forEach(event => {
-    console.log('Processing Event', event);
-    handleEvent({ data: event.data, type: event.type });
-  });
+  try {
+    const res = await axios.get(`${process.env.EVENT_BUS_URL}/events`);
+    res.data.forEach(event => {
+      console.log('Processing Event', event);
+      handleEvent({ data: event.data, type: event.type });
+    });
+  } catch (error) {
+    res.status(400).json({ msg: 'There was an error processing an event' });
+    console.error('There was an error processing an event');
+    console.error(error);
+  }
 });

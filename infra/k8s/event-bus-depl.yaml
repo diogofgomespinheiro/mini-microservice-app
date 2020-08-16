@@ -15,6 +15,17 @@ spec:
       containers:
         - name: event-bus
           image: diogo96/event-bus
+          env:
+            - name: POSTS_SERVICE_URL
+              value: "http://posts-service-srv:4000"
+            - name: COMMENTS_SERVICE_URL
+              value: "http://comments-service-srv:4001"
+            - name: QUERY_SERVICE_URL
+              value: "http://query-service-srv:4002"
+            - name: MODERATION_SERVICE_URL
+              value: "http://moderation-service-srv:4003"
+            - name: EVENT_BUS_URL
+              value: "http://event-bus-srv:4005"
 ---
 apiVersion: v1
 kind: Service

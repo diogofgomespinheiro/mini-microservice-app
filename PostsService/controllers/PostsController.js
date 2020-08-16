@@ -17,14 +17,20 @@ class PostsController {
       title,
     };
 
-    await axios.post(`${process.env.EVENT_BUS_URL}/events`, {
-      data: {
-        id,
-        title,
-      },
-      service: 'Posts',
-      type: 'PostCreated',
-    });
+    try {
+      await axios.post(`${process.env.EVENT_BUS_URL}/events`, {
+        data: {
+          id,
+          title,
+        },
+        service: 'Posts',
+        type: 'PostCreated',
+      });
+    } catch (error) {
+      res.status(400).json({ msg: 'There was an error creating a post' });
+      console.error('There was an error creating a post');
+      console.error(error);
+    }
 
     res.status(201).json(posts[id]);
   }
